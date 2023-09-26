@@ -1,23 +1,23 @@
 package io.geekya215.nyx;
 
+import io.geekya215.nyx.beans.factory.config.BeanDefinition;
+import io.geekya215.nyx.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BeanFactoryTest {
-    class HelloService {
-        String hello() {
-            System.out.println("Hello!");
-            return "hello";
-        }
-    }
 
     @Test
     void testGetBean() {
-        BeanFactory beanFactory = new BeanFactory();
-        HelloService helloService = new HelloService();
-        beanFactory.registerBean("helloService", helloService);
-        HelloService service = ((HelloService) beanFactory.getBean("helloService"));
-        Assertions.assertEquals(helloService, service);
-        Assertions.assertEquals("hello", service.hello());
+        // create bean factory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // register bean definition
+        BeanDefinition beanDefinition = new BeanDefinition(HelloService.class);
+        beanFactory.registerBeanDefinition("helloService", beanDefinition);
+
+        // get bean
+        HelloService helloService = (HelloService) beanFactory.getBean("helloService");
+        Assertions.assertEquals("hello", helloService.hello());
     }
 }
